@@ -1,8 +1,7 @@
+from dataclasses import field
+from pyexpat import model
 from rest_framework import serializers
-from posts.models import Post
-from django.contrib.auth.models import User
-from rest_framework.validators import UniqueValidator
-from django.contrib.auth.password_validation import validate_password
+from posts.models import Post, MyUser
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta: 
@@ -10,39 +9,24 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ["blog_name","id","content","description","id"]
 
 
-class UserSerializer(serializers.Serializer):
-    class Meta :
-        model = User
-        fields = ['username','id']
-
-    # def create(self,data):
-    #     user = User.objects.create(
-    #         username = data["username"],
-    #         email = data["email"],
-    #     )
-    
-    #     user.set_password(data["password"])
-    #     user.save()
-    #     return user
-
-class RegisterSerializer(serializers.ModelSerializer):
-    email = serializers.EmailField(
-    required=True,
-    validators=[UniqueValidator(queryset=User.objects.all())] )
-
-    password = serializers.CharField(
-    write_only=True, required=True, validators=[validate_password])
-
-
+class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = ['username', 'password','email']
+        model = MyUser
+        fields = ['id','email','username','password']
+        extra_kwargs = {
+            'password' : {'write_only':True}
+        }
 
-        def create(self, validated_data):
-            user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'] )
+    def validate(request,data) : 
+        return data
 
-            user.set_password(validated_data['password'])
-            user.save()
-            return user
+    def create(self,validate_data):
+        return MyUser.objects.create_user(**validate_data)
+
+
+
+class UserLoginSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(max_length = 100)
+    class Meta:
+        model = MyUser
+        fields = ['email','password']

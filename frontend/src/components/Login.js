@@ -23,10 +23,10 @@ const Login = () => {
         alert("Loggined")
     }
     return (
-        <div>
-            <input placeholder='Username' name={"username"} value={obj.username} onChange={handleinput} />
-            <input placeholder='Password' type={"password"} name={"password"} value={obj.password} onChange={handleinput} />
-            <button onClick={handlesubmit}>Login</button>
+        <div className='mx-5 my-5 w-50'>
+            <input placeholder='Username' name={"username"} value={obj.username} onChange={handleinput} className='form-control d-block w-50 my-3'/>
+            <input placeholder='Password' type={"password"} name={"password"} value={obj.password} onChange={handleinput} className='form-control d-block w-50 my-3'/>
+            <button onClick={handlesubmit} className='btn btn-success'>Login</button>
         </div>
     )
 }
