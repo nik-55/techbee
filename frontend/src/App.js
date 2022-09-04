@@ -6,6 +6,7 @@ import { Route , Routes } from 'react-router-dom';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Navbar from './components/Navbar';
+import Readmore from './components/Readmore';
 const App = () => {
   return (
     <>
@@ -16,6 +17,7 @@ const App = () => {
       <Route path='/contact' element = {<Contact />}/>
       <Route path='/register' element = {<Register />}/>
       <Route path='/login' element = {<Login />}/>
+      <Route path='/:postid' element = {<Readmore/>}/>
       </Routes>
 
     </>

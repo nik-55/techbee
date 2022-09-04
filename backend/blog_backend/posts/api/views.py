@@ -6,23 +6,33 @@ from django.contrib.auth import authenticate,login,logout
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import PostsSerializer,UserSerializer,RegisterSerializer
-from posts.models import Posts
+from .serializers import UserSerializer,RegisterSerializer,PostSerializer
+from posts.models import Post
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 
 @api_view(["POST"])
 def savepost(request):
-    inp = Posts(input=request.data["input"])
-    inp.save()
+    data = request.data
+    obj = Post(
+        blog_name = data["blog_name"],
+        description = data["description"],
+        content = data["content"]
+    )
+    obj.save()
     return HttpResponse("success ok")
 
 @api_view(["GET"])
 def getpost(request) : 
-    posts = Posts.objects.all()
-    serializer=PostsSerializer(posts,many=True)
+    posts = Post.objects.all()
+    serializer= PostSerializer(posts,many=True)
     return Response(serializer.data)
 
+@api_view(["GET"])
+def getblog(request,postid):
+    post = Post.objects.get(id=postid)
+    serializer = PostSerializer(post)
+    return Response(serializer.data)
 
 @api_view(["POST"])
 def register(request):

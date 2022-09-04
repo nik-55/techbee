@@ -1,8 +1,6 @@
 from django.db import models
 
-# Create your models here.
-class Posts(models.Model):
-    input = models.TextField()
-
-# class Upload(models.Model):
-#     file = models.FileField()
+class Post(models.Model):
+    blog_name = models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
+    content = models.TextField()

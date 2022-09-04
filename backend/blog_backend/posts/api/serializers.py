@@ -1,13 +1,14 @@
 from rest_framework import serializers
-from posts.models import Posts
+from posts.models import Post
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
-class PostsSerializer(serializers.ModelSerializer):
-    class Meta : 
-        model = Posts
-        fields = ["input","id"]
+class PostSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Post
+        fields = ["blog_name","id","content","description","id"]
+
 
 class UserSerializer(serializers.Serializer):
     class Meta :
