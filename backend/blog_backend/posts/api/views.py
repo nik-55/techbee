@@ -44,6 +44,21 @@ def getblog(request, postid):
     serializer = PostSerializer(post)
     return Response(serializer.data)
 
+@api_view(["DELETE"])
+def deletepost(request,postid):
+    post = Post.objects.get(id=postid)
+    post.delete()
+    return HttpResponse("Delete")
+
+@api_view(["PUT"])
+def updatepost(request,postid):
+    post = Post.objects.get(id=postid)
+    data = request.data
+    post.content = data["content"]
+    post.blog_name = data["blog_name"]
+    post.description = data["description"]
+    post.save()
+    return HttpResponse("Updated")
 
 class UserRegistration(APIView):
     def post(self, request):

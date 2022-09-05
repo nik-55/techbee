@@ -27,7 +27,7 @@ const Register = () => {
     })
     setObj(object);
     alert("Registered Successfully")
-    navigate("/login")
+    navigate("/login",{replace:true})
   }
   return (
     <div className='mx-5 my-5 w-50'>

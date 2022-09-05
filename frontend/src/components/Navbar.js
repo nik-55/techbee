@@ -1,10 +1,12 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 
 const Navbar = ({login,change}) => {
+    const navigate = useNavigate()
     const logout = ()=>{
         localStorage.setItem("techbee_jwtToken","");
         change(false)
+        navigate("/",{replace : true})
     }
     return (
         <>

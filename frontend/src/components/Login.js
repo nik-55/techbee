@@ -26,7 +26,7 @@ const Login = ({change}) => {
         alert("Loggined")
         setObj(object)
         change(true)
-        navigate("/")
+        navigate("/",{replace:true})
     }
     return (
         <div className='mx-5 my-5 w-50'>
