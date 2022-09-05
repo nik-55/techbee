@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { Link } from 'react-router-dom';
 
 const obj = {
     blog_name: "",
     description: "",
     content: "",
 }
-const Blog = () => {
+const Blog = ({ login }) => {
     const [inp, setInp] = useState(obj);
 
     const handleinput = (e) => {
@@ -27,7 +28,7 @@ const Blog = () => {
 
     return (
         <>
-            <form className='mx-4 my-4' onSubmit={handlesubmit}>
+            {login ? <form className='mx-4 my-4' onSubmit={handlesubmit}>
                 <div className="row mb-3">
                     <label className="col-sm-2 col-form-label">Blog Name</label>
                     <div className="col-sm-10">
@@ -55,7 +56,7 @@ const Blog = () => {
                     </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Post</button>
-            </form>
+            </form> : <Link className='mx-5 my-5' to="/login">Login In To create blog</Link>}
         </>
     )
 }

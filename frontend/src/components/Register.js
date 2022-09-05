@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const object = {
   username: "",
@@ -8,7 +9,9 @@ const object = {
 }
 
 const Register = () => {
-  const [obj, setObj] = useState(object);
+  const [obj, setObj] = useState(object)
+  const navigate = useNavigate()
+
   const handleinput = (e) => {
     const name = e.target.name;
     const val = e.target.value;
@@ -16,6 +19,7 @@ const Register = () => {
   }
 
   const handlesubmit = async () => {
+    
     await axios.post("http://localhost:8000/register/", {
       email: obj.email,
       username: obj.username,
@@ -23,6 +27,7 @@ const Register = () => {
     })
     setObj(object);
     alert("Registered Successfully")
+    navigate("/login")
   }
   return (
     <div className='mx-5 my-5 w-50'>

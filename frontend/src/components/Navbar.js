@@ -1,6 +1,11 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-const Navbar = () => {
+
+const Navbar = ({login,change}) => {
+    const logout = ()=>{
+        localStorage.setItem("techbee_jwtToken","");
+        change(false)
+    }
     return (
         <>
             <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
@@ -17,15 +22,25 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <NavLink to="/blog" className="nav-link">Blog</NavLink>
                             </li>
-                            <li className="nav-item">
-                                <NavLink to="/contact" className="nav-link">Contact</NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/register" className="nav-link">Register</NavLink>
-                            </li>
-                            <li className="nav-item">
-                                <NavLink to="/login" className="nav-link">Login</NavLink>
-                            </li>
+                            {
+                                login ? <>
+                                    <li className="nav-item">
+                                        <NavLink to="/profile" className="nav-link">Profile</NavLink>
+                                    </li>
+                                    <li className="nav-item">
+                                        <button className='nav-link' onClick={logout}>Logout</button>
+                                    </li>
+                                </>
+                                    :
+                                    <>
+                                        <li className="nav-item">
+                                            <NavLink to="/register" className="nav-link">Register</NavLink>
+                                        </li>
+                                        <li className="nav-item">
+                                            <NavLink to="/login" className="nav-link">Login</NavLink>
+                                        </li>
+                                    </>
+                            }
                         </ul>
                     </div>
                 </div>

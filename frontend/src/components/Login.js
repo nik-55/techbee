@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const object = {
-    username: "",
+    email: "",
     password: ""
 }
 
-const Login = () => {
+const Login = ({change}) => {
+    const navigate = useNavigate()
     const [obj, setObj] = useState(object);
     const handleinput = (e) => {
         const name = e.target.name;
@@ -15,17 +17,21 @@ const Login = () => {
     }
 
     const handlesubmit = async () => {
-        await axios.post("http://localhost:8000/login/", {
-            username: obj.username,
+        const res = await axios.post("http://localhost:8000/login/", {
+            email: obj.email,
             password: obj.password
         })
-        setObj(object);
+        const token = res.data.token
+        localStorage.setItem("techbee_jwtToken",token.access)
         alert("Loggined")
+        setObj(object)
+        change(true)
+        navigate("/")
     }
     return (
         <div className='mx-5 my-5 w-50'>
-            <input placeholder='Username' name={"username"} value={obj.username} onChange={handleinput} className='form-control d-block w-50 my-3'/>
-            <input placeholder='Password' type={"password"} name={"password"} value={obj.password} onChange={handleinput} className='form-control d-block w-50 my-3'/>
+            <input placeholder='email' name={"email"} value={obj.email} onChange={handleinput} className='form-control d-block w-50 my-3' />
+            <input placeholder='Password' type={"password"} name={"password"} value={obj.password} onChange={handleinput} className='form-control d-block w-50 my-3' />
             <button onClick={handlesubmit} className='btn btn-success'>Login</button>
         </div>
     )
