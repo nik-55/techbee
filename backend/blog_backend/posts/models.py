@@ -8,6 +8,7 @@ class Post(models.Model):
     blog_name = models.CharField(max_length=50)
     description = models.CharField(max_length=200)
     content = models.TextField()
+    author_id = models.CharField(max_length=255)
     # last_edit = models.DateTimeField(auto_now_add=True)
 
 

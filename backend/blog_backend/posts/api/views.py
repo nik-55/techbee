@@ -20,21 +20,21 @@ def get_tokens_for_user(user):
 
 
 class Savepost(APIView):
-    permission_classes = [IsAuthenticated]
-
+    # authentication_classes = [IsAuthenticated]
     def post(self, request):
         data = request.data
         obj = Post(
             blog_name=data["blog_name"],
             description=data["description"],
-            content=data["content"]
+            content=data["content"],
+            author_id = data["author_id"]
         )
 
-        # serializer = SaveSerializer(request.user)
+        # # serializer = SaveSerializer(request.user)
 
         
-        # if serializer.is_valid(raise_exception=True):
-        #     serializer.save()
+        # # if serializer.is_valid(raise_exception=True):
+        # #     serializer.save()
         obj.save()
         return HttpResponse("success ok")
 
@@ -44,6 +44,14 @@ def getpost(request):
     posts = Post.objects.all()
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+def getauthorpost(request,author_id):
+    posts = Post.objects.filter(author_id=author_id)
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
 
 
 @api_view(["GET"])

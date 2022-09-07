@@ -1,8 +1,27 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { Pubuser } from "../App"
+import AuthorPost from "./AuthorPost"
+import axios from "axios"
 
-const Profile = () => {
+const obj = {
+  blog_name: "",
+  description: "",
+  content: "",
+  author_id: ""
+}
+
+const Profile = ({login}) => {
+  const [post, setPost] = useState([]);
+  const [logged,setLogged] = useState(false);
   const user = useContext(Pubuser)
+  const getpost = async () => {
+    const res = await axios.get(`http://127.0.0.1:8000/getauthorpost/${user.id}/`);
+    setPost(res.data);
+    setLogged(true)
+  }
+  useEffect(() => {
+   if(login) {getpost()}
+  }, [login])
   return (
     <>
       <section className="vh-100" style={{ "backgroundColor": "#9de2ff" }}>
@@ -38,6 +57,7 @@ const Profile = () => {
           </div>
         </div>
       </section>
+     <div className='my-5'>{logged? <AuthorPost post={post[0]} />:"loop"}</div>
     </>
   )
 }

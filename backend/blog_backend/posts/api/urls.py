@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import UserLogin, deletepost, getblog, Savepost, getpost, UserRegistration, UserProfile, updatepost
+from .views import UserLogin, deletepost, getauthorpost, getblog, Savepost, getpost, UserRegistration, UserProfile, updatepost
 
 
 urlpatterns = [
@@ -10,5 +10,6 @@ urlpatterns = [
     path("login/", UserLogin.as_view()),
     path("getuser/",UserProfile.as_view()),
     path("deletepost/<str:postid>/",deletepost),
-    path("updatepost/<str:postid>/",updatepost)
+    path("updatepost/<str:postid>/",updatepost),
+    path("getauthorpost/<str:author_id>/",getauthorpost)
 ]

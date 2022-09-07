@@ -46,7 +46,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/blog' element={<Blog login={login} />} />
-          <Route path='/profile' element={<Profile />} />
+          <Route path='/profile' element={<Profile login={login}/>} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login change={(log) => change(log)} />} />
           <Route path='/:postid' element={<Readmore />} />

@@ -1,16 +1,13 @@
-import React, { useContext, useState } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom';
-import { Pubuser } from '../App';
+import React,{useState} from 'react'
+import axios from 'axios';
 
-const obj = {
-    blog_name: "",
-    description: "",
-    content: "",
-}
-const Blog = ({ login }) => {
+const AuthorPost = ({ post }) => {
+    const obj = {
+        blog_name: post?.blog_name,
+        description: post?.description,
+        content: post?.content,
+    }
     const [inp, setInp] = useState(obj);
-    const user = useContext(Pubuser);
 
     const handleinput = (e) => {
         const name = e.target.name
@@ -25,19 +22,22 @@ const Blog = ({ login }) => {
             const config = {
                 headers: { Authorization: `Bearer ${token}` }
             }
-            await axios.post('http://127.0.0.1:8000/savepost/', {
+            await axios.put(`http://127.0.0.1:8000/updatepost/${post.id}/`, {
                 blog_name: inp.blog_name,
                 description: inp.description,
                 content: inp.content,
-                author_id: user.id
             },config);
             setInp(obj);
         }
     }
 
+   const del = async()=>{
+        await axios.delete(`http://127.0.0.1:8000/deletepost/${post.id}/`)
+   }
+
     return (
         <>
-            {login ? <form className='mx-4 my-4' onSubmit={handlesubmit}>
+            <form className='mx-4 my-4' onSubmit={handlesubmit}>
                 <div className="row mb-3">
                     <label className="col-sm-2 col-form-label">Blog Name</label>
                     <div className="col-sm-10">
@@ -64,10 +64,11 @@ const Blog = ({ login }) => {
                         <input type={"file"} className="form-control w-25" />
                     </div>
                 </div>
-                <button type="submit" className="btn btn-primary">Post</button>
-            </form> : <Link className='mx-5 my-5' to="/login">Login In To create blog</Link>}
+                <button type="submit" className="btn btn-primary">Edit</button>
+            </form>
+            <button type="submit" className="btn btn-primary" onClick={del}>Delete</button>
         </>
     )
 }
 
-export default Blog
+export default AuthorPost
