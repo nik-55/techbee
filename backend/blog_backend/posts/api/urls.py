@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import UserLogin, deletepost, getblog, savepost, getpost, UserRegistration, UserProfile, updatepost
+from .views import UserLogin, deletepost, getblog, Savepost, getpost, UserRegistration, UserProfile, updatepost
 
 
 urlpatterns = [
-    path("savepost/", savepost),
+    path("savepost/", Savepost.as_view()),
     path("getpost/", getpost),
     path("getblog/<str:postid>/", getblog),
     path("register/", UserRegistration.as_view()),

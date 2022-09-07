@@ -1,5 +1,6 @@
 from dataclasses import field
 from pyexpat import model
+from statistics import mode
 from rest_framework import serializers
 from posts.models import Post, MyUser
 
@@ -36,3 +37,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = MyUser
         fields = ['id','username','email']
+
+
+class SaveSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MyUser
+        fields = ['blog_id']

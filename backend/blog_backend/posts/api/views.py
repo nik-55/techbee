@@ -2,7 +2,7 @@ from operator import is_
 from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import PostSerializer, UserLoginSerializer, UserProfileSerializer, UserRegistrationSerializer
+from .serializers import PostSerializer, SaveSerializer, UserLoginSerializer, UserProfileSerializer, UserRegistrationSerializer
 from rest_framework.views import APIView
 from posts.models import Post
 from django.contrib.auth import authenticate
@@ -19,16 +19,24 @@ def get_tokens_for_user(user):
     }
 
 
-@api_view(["POST"])
-def savepost(request):
-    data = request.data
-    obj = Post(
-        blog_name=data["blog_name"],
-        description=data["description"],
-        content=data["content"]
-    )
-    obj.save()
-    return HttpResponse("success ok")
+class Savepost(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        data = request.data
+        obj = Post(
+            blog_name=data["blog_name"],
+            description=data["description"],
+            content=data["content"]
+        )
+
+        # serializer = SaveSerializer(request.user)
+
+        
+        # if serializer.is_valid(raise_exception=True):
+        #     serializer.save()
+        obj.save()
+        return HttpResponse("success ok")
 
 
 @api_view(["GET"])
@@ -44,14 +52,16 @@ def getblog(request, postid):
     serializer = PostSerializer(post)
     return Response(serializer.data)
 
+
 @api_view(["DELETE"])
-def deletepost(request,postid):
+def deletepost(request, postid):
     post = Post.objects.get(id=postid)
     post.delete()
     return HttpResponse("Delete")
 
+
 @api_view(["PUT"])
-def updatepost(request,postid):
+def updatepost(request, postid):
     post = Post.objects.get(id=postid)
     data = request.data
     post.content = data["content"]
@@ -59,6 +69,7 @@ def updatepost(request,postid):
     post.description = data["description"]
     post.save()
     return HttpResponse("Updated")
+
 
 class UserRegistration(APIView):
     def post(self, request):

@@ -11,7 +11,7 @@ class UserAdmin(BaseUserAdmin):
 
     fieldsets = (
         ('User Credentials', {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('username',)}),
+        ('Personal info', {'fields': ('username','blog_id')}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
 

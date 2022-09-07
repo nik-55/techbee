@@ -1,3 +1,5 @@
+from locale import normalize
+from tkinter.messagebox import NO
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
@@ -9,26 +11,33 @@ class Post(models.Model):
     # last_edit = models.DateTimeField(auto_now_add=True)
 
 
+class Blog_Id(models.Model):
+    blog_id = models.CharField(max_length=100, blank=True, null=True)
+
+
 class MyUserManager(BaseUserManager):
-    def create_user(self, email, username, password=None):
+    def create_user(self, email, username, blog_id=None, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
         user = self.model(
             email=self.normalize_email(email),
             username=username,
+            blog_id=blog_id
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password=None):
+    def create_superuser(self, email, username, blog_id=None, password=None):
         user = self.create_user(
             email,
             password=password,
             username=username,
+            blog_id=blog_id
         )
+
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -42,6 +51,7 @@ class MyUser(AbstractBaseUser):
     )
 
     username = models.CharField(max_length=200)
+    blog_id = models.ForeignKey(Blog_Id, on_delete=models.CASCADE, null=True,blank=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
