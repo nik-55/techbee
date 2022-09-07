@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { Pubuser } from "../App"
 import AuthorPost from "./AuthorPost"
 import axios from "axios"
+import { Link } from "react-router-dom"
 
 const obj = {
   blog_name: "",
@@ -10,9 +11,9 @@ const obj = {
   author_id: ""
 }
 
-const Profile = ({login}) => {
+const Profile = ({ login }) => {
   const [post, setPost] = useState([]);
-  const [logged,setLogged] = useState(false);
+  const [logged, setLogged] = useState(false);
   const user = useContext(Pubuser)
   const getpost = async () => {
     const res = await axios.get(`http://127.0.0.1:8000/getauthorpost/${user.id}/`);
@@ -20,8 +21,8 @@ const Profile = ({login}) => {
     setLogged(true)
   }
   useEffect(() => {
-   if(login) {getpost()}
-  }, [login])
+    if (login) { getpost() }
+  })
   return (
     <>
       <section className="vh-100" style={{ "backgroundColor": "#9de2ff" }}>
@@ -57,7 +58,10 @@ const Profile = ({login}) => {
           </div>
         </div>
       </section>
-     <div className='my-5'>{logged? <AuthorPost post={post[0]} />:"loop"}</div>
+      <div className='my-5'>{logged ? post.map((ele) => {
+        return <div key={ele.id} >
+          <Link to={`/profile/editpost/${ele.id}`}>{ele.blog_name}</Link></div>
+      }) : "loop"}</div>
     </>
   )
 }

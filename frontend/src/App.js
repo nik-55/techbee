@@ -8,6 +8,7 @@ import Blog from './components/Blog';
 import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import Readmore from './components/Readmore';
+import AuthorPost from './components/AuthorPost';
 
 const Pubuser = createContext()
 
@@ -46,7 +47,9 @@ const App = () => {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/blog' element={<Blog login={login} />} />
-          <Route path='/profile' element={<Profile login={login}/>} />
+          <Route path='/profile' element={<Profile login={login} />} />
+          <Route path="/profile/editpost/:postid" element={<AuthorPost />} />
+
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login change={(log) => change(log)} />} />
           <Route path='/:postid' element={<Readmore />} />
