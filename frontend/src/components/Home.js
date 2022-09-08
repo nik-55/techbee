@@ -6,11 +6,15 @@ const Home = () => {
     const [posts, setPosts] = useState([]);
     const getpost = async () => {
         const res = await axios.get('http://127.0.0.1:8000/getpost/');
-        setPosts(res.data);
+        return res.data;
     }
 
     useEffect(() => {
-        getpost();
+        const call = async () => {
+            const data = await getpost()
+            setPosts(data);
+        }
+        call()
     }, [])
 
     return (

@@ -1,11 +1,13 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useAuth } from './Auth'
 
-const Navbar = ({login,change}) => {
+const Navbar = () => {
+    const {login,signout} = useAuth()
     const navigate = useNavigate()
     const logout = ()=>{
         localStorage.setItem("techbee_jwtToken","");
-        change(false)
+        signout()
         navigate("/",{replace : true})
     }
     return (

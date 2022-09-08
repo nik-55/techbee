@@ -1,5 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react'
-import axios from 'axios';
+import React from 'react'
 import Register from './components/Register';
 import Login from './components/Login';
 import Home from './components/Home';
@@ -9,55 +8,28 @@ import Profile from './components/Profile';
 import Navbar from './components/Navbar';
 import Readmore from './components/Readmore';
 import AuthorPost from './components/AuthorPost';
-
-const Pubuser = createContext()
-
-const obj = {
-  id: "",
-  username: "",
-  email: "",
-}
+import RequiredAuth from './components/RequiredAuth';
+import Auth from './components/Auth';
 
 const App = () => {
-  const [user, setUser] = useState(obj)
-  const [login, setLogin] = useState(false);
-  const getuser = async () => {
-    const token = localStorage.getItem("techbee_jwtToken")
-    if (token !== "") {
-      const config = {
-        headers: { Authorization: `Bearer ${token}` }
-      };
-      const res = await axios.get("http://localhost:8000/getuser/", config)
-      setUser(res.data)
-      setLogin(true)
-    }
-  }
 
-  useEffect(() => {
-    getuser();
-  }, [login])
-
-  const change = (log) => {
-    setLogin(log)
-  }
   return (
     <>
-      <Pubuser.Provider value={user}>
-        <Navbar login={login} change={(log) => change(log)} />
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/blog' element={<Blog login={login} />} />
-          <Route path='/profile' element={<Profile login={login} />} />
-          <Route path="/profile/editpost/:postid" element={<AuthorPost />} />
+      <Auth>
+          <Navbar/>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/blog' element={<RequiredAuth><Blog/></RequiredAuth>} />
+            <Route path='/profile' element={<RequiredAuth><Profile/></RequiredAuth>} />
+            <Route path="/profile/editpost/:postid" element={<AuthorPost />} />
 
-          <Route path='/register' element={<Register />} />
-          <Route path='/login' element={<Login change={(log) => change(log)} />} />
-          <Route path='/:postid' element={<Readmore />} />
-        </Routes>
-      </Pubuser.Provider>
+            <Route path='/register' element={<Register />} />
+            <Route path='/login' element={<Login/>} />
+            <Route path='/:postid' element={<Readmore />} />
+          </Routes>
+      </Auth>
     </>
   )
 }
 
 export default App
-export { Pubuser }

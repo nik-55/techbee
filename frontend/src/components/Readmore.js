@@ -8,11 +8,15 @@ const Readmore = () => {
 
     const getpost = async (id) => {
         const res = await axios.get(`http://127.0.0.1:8000/getblog/${id}`);
-        setPost(res.data);
+        return res.data;
     }
 
     useEffect(() => {
-        getpost(postid);
+        const call = async () => {
+            const data = await getpost(postid);
+            setPost(data)
+        }
+        call()
     }, [postid])
 
     return (

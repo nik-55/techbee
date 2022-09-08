@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './Auth';
 
 const object = {
     email: "",
     password: ""
 }
 
-const Login = ({change}) => {
+const Login = () => {
+    const {signin} = useAuth();
     const navigate = useNavigate()
     const [obj, setObj] = useState(object);
     const handleinput = (e) => {
@@ -25,7 +27,7 @@ const Login = ({change}) => {
         localStorage.setItem("techbee_jwtToken",token.access)
         alert("Loggined")
         setObj(object)
-        change(true)
+        signin()
         navigate("/",{replace:true})
     }
     return (

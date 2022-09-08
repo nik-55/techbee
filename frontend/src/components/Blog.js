@@ -1,16 +1,15 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios'
-import { Link } from 'react-router-dom';
-import { Pubuser } from '../App';
+import { useAuth } from './Auth';
 
 const obj = {
     blog_name: "",
     description: "",
     content: "",
 }
-const Blog = ({ login }) => {
+const Blog = () => {
     const [inp, setInp] = useState(obj);
-    const user = useContext(Pubuser);
+    const { user } = useAuth();
 
     const handleinput = (e) => {
         const name = e.target.name
@@ -30,14 +29,14 @@ const Blog = ({ login }) => {
                 description: inp.description,
                 content: inp.content,
                 author_id: user.id
-            },config);
+            }, config);
             setInp(obj);
         }
     }
 
     return (
         <>
-            {login ? <form className='mx-4 my-4' onSubmit={handlesubmit}>
+            <form className='mx-4 my-4' onSubmit={handlesubmit}>
                 <div className="row mb-3">
                     <label className="col-sm-2 col-form-label">Blog Name</label>
                     <div className="col-sm-10">
@@ -65,7 +64,7 @@ const Blog = ({ login }) => {
                     </div>
                 </div>
                 <button type="submit" className="btn btn-primary">Post</button>
-            </form> : <Link className='mx-5 my-5' to="/login">Login In To create blog</Link>}
+            </form>
         </>
     )
 }

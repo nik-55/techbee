@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 
 const AuthorPost = () => {
-    const {postid} = useParams();
+    const { postid } = useParams();
     const obj = {
         blog_name: "",
         description: "",
@@ -38,13 +38,14 @@ const AuthorPost = () => {
     const del = async () => {
         await axios.delete(`http://127.0.0.1:8000/deletepost/${postid}/`)
     }
-    const getblog=async()=>{
-        const res= await axios.get(`http://localhost:8000/getblog/${postid}/`)
-        setInp(res.data);
-    }
-    useEffect(()=>{
+
+    useEffect(() => {
+        const getblog = async () => {
+            const res = await axios.get(`http://localhost:8000/getblog/${postid}/`)
+            setInp(res.data);
+        }
         getblog();
-    })
+    },[postid])
     return (
         <>
             <form className='mx-4 my-4' onSubmit={handlesubmit}>
