@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import axios from 'axios'
 import { useAuth } from './Auth';
+import { savepost } from '../api/getuser';
 
 const obj = {
     blog_name: "",
     description: "",
     content: "",
 }
+
 const Blog = () => {
     const [inp, setInp] = useState(obj);
     const { user } = useAuth();
@@ -17,26 +18,9 @@ const Blog = () => {
         setInp({ ...inp, [name]: val })
     }
 
-    const handlesubmit = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem("techbee_jwtToken")
-        if (token !== "") {
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            }
-            await axios.post('http://127.0.0.1:8000/savepost/', {
-                blog_name: inp.blog_name,
-                description: inp.description,
-                content: inp.content,
-                author_id: user.id
-            }, config);
-            setInp(obj);
-        }
-    }
-
     return (
         <>
-            <form className='mx-4 my-4' onSubmit={handlesubmit}>
+            <form className='mx-4 my-4' onSubmit={(e) => savepost(e, { ...inp, id: user.id })}>
                 <div className="row mb-3">
                     <label className="col-sm-2 col-form-label">Blog Name</label>
                     <div className="col-sm-10">

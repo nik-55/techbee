@@ -9,9 +9,10 @@ const object = {
 }
 
 const Login = () => {
-    const {signin} = useAuth();
+    const { signin } = useAuth();
     const navigate = useNavigate()
     const [obj, setObj] = useState(object);
+
     const handleinput = (e) => {
         const name = e.target.name;
         const val = e.target.value;
@@ -24,11 +25,10 @@ const Login = () => {
             password: obj.password
         })
         const token = res.data.token
-        localStorage.setItem("techbee_jwtToken",token.access)
+        localStorage.setItem("techbee_jwtToken", token.access)
         alert("Loggined")
-        setObj(object)
         signin()
-        navigate("/",{replace:true})
+        navigate("/", { replace: true })
     }
     return (
         <div className='mx-5 my-5 w-50'>

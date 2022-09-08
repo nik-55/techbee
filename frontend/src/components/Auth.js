@@ -1,8 +1,7 @@
-import React, { createContext, useContext, useState,useEffect } from 'react'
-import axios from 'axios';
+import React, { createContext, useContext, useState, useEffect } from 'react'
+import { getuser } from '../api/getuser';
 
 const AuthContext = createContext(null);
-
 const obj = {
     id: "",
     username: "",
@@ -13,25 +12,17 @@ const Auth = ({ children }) => {
     const [user, setUser] = useState(obj);
     const [login, setLogin] = useState(false)
 
-    const getuser = async () => {
-        const token = localStorage.getItem("techbee_jwtToken")
-        if (token !== "") {
-            const config = {
-                headers: { Authorization: `Bearer ${token}` }
-            };
-            const res = await axios.get("http://localhost:8000/getuser/", config)
-            return res;
-        }
-    }
-
     useEffect(() => {
         const call = async () => {
-            const res = await getuser();
-            setUser(res.data)
-            setLogin(true)
+            try {
+                const res = await getuser();
+                setUser(res.data)
+                setLogin(true)
+            }
+            catch (err) { console.log(err) }
         }
         call()
-    },[login])
+    }, [login])
 
     const signin = () => {
         setLogin(true)

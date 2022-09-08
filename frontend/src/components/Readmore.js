@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import { getblog } from '../api/getuser';
 import { useParams } from 'react-router-dom'
 
 const Readmore = () => {
     const { postid } = useParams();
     const [post, setPost] = useState({});
 
-    const getpost = async (id) => {
-        const res = await axios.get(`http://127.0.0.1:8000/getblog/${id}`);
-        return res.data;
-    }
-
     useEffect(() => {
         const call = async () => {
-            const data = await getpost(postid);
+            const data = await getblog(postid);
             setPost(data)
         }
         call()

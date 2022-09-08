@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { getpost } from '../api/getuser';
 
 const Home = () => {
     const [posts, setPosts] = useState([]);
-    const getpost = async () => {
-        const res = await axios.get('http://127.0.0.1:8000/getpost/');
-        return res.data;
-    }
 
     useEffect(() => {
         const call = async () => {

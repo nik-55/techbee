@@ -3,7 +3,6 @@ import axios from "axios"
 import { Link } from "react-router-dom"
 import { useAuth } from "./Auth"
 
-
 const Profile = () => {
   const [post, setPost] = useState([]);
   const { user } = useAuth()
@@ -15,6 +14,7 @@ const Profile = () => {
     }
     getpost()
   }, [user])
+
   return (
     <>
       <section className="vh-100" style={{ "backgroundColor": "#9de2ff" }}>

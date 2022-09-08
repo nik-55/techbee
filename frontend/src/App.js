@@ -19,6 +19,7 @@ const App = () => {
           <Navbar/>
           <Routes>
             <Route path='/' element={<Home />} />
+            
             <Route path='/blog' element={<RequiredAuth><Blog/></RequiredAuth>} />
             <Route path='/profile' element={<RequiredAuth><Profile/></RequiredAuth>} />
             <Route path="/profile/editpost/:postid" element={<AuthorPost />} />
